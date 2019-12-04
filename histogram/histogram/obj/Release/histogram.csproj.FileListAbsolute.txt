@@ -1,0 +1,16 @@
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\bin\Release\histogram.exe.config
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\bin\Release\histogram.exe
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\bin\Release\histogram.pdb
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\bin\Release\Emgu.CV.UI.dll
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\bin\Release\Emgu.CV.World.dll
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\bin\Release\Emgu.CV.UI.xml
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\bin\Release\Emgu.CV.World.xml
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\obj\Release\histogram.Form1.resources
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\obj\Release\histogram.Properties.Resources.resources
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\obj\Release\histogram.csproj.GenerateResource.cache
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\obj\Release\histogram.csproj.CoreCompileInputs.cache
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\obj\Release\histogram.csproj.CopyComplete
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\obj\Release\histogram.exe
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\obj\Release\histogram.pdb
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\obj\Release\histogram.csprojAssemblyReference.cache
+C:\Users\Juinda\實驗室\邑富\histogram\histogram\bin\Release\ZedGraph.dll
