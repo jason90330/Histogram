@@ -20,7 +20,26 @@ namespace histogram
 {
     public partial class Form1 : Form
     {
-        public class Result
+        public class Parameter// : JsonFieldDB
+        {
+
+            public Image<Bgra, byte> TemplateImageBgra { get; set; }
+            public float[][] oriHistData;
+            public int brightnessDiv;
+            public int contrastDiv;
+            public int min;
+            public int max;
+            public bool changeHistogram;
+
+            public Parameter(int oriMin,int oriMax)
+            {
+                min = oriMin;
+                max = oriMax;
+                brightnessDiv = 0;
+                contrastDiv = 0;
+            }
+        }
+        public class Result// : JsonFieldDB
         {
             public Bitmap[] histBmp;
             public float[][] histData;
@@ -42,13 +61,13 @@ namespace histogram
         Image<Rgb, UInt16> sourceRgbImg16;
         float[][] oriHistData = new float[3][];
         Bitmap[] oriHistBmp = new Bitmap[3];
-        int brightnessNum = 0;
-        int contrastNum = 0;
+
         int depth;
         int oriMin;
         int oriMax;
         Point[] minPt = new Point[1];
         Point[] maxPt = new Point[1];
+
         public Form1()
         {
             for (int i = 0; i < 3; i++)
@@ -123,6 +142,7 @@ namespace histogram
                 }
             }
         }
+
         private static float[][] ComputeHistogram(Image<Rgb, byte> input)
         {
             float[][] result = new float[3][];
@@ -156,7 +176,7 @@ namespace histogram
                     //  maxAmount = 255 - data[channel][r];
                     //y愈下面愈大 Pt1是下面的點Pt2是上面的
                     Point Pt1 = new Point(r, 255);
-                    Point Pt2 = new Point(r, (int)Math.Round(255.0 - data[channel][r] / maxAmount * 255.0));                    
+                    Point Pt2 = new Point(r, (int)Math.Round(255.0 - data[channel][r] / maxAmount * 255.0));
                     histGraphic.DrawLine(blkPen, Pt1, Pt2);
                 }
             }
@@ -198,8 +218,8 @@ namespace histogram
             }
             return result;
         }
-
-        private void Change8bit(Image<Rgb, byte> sourceImg, float[][] oriHistData, int brightnessDiv, int contrastDiv, int min, int max, bool changeHistogram, out Result output)
+        private void Change8bit(Image<Rgb, byte> sourceImg, Parameter param, out Result output)
+        //private void Change8bit(Image<Rgb, byte> sourceImg, float[][] oriHistData, int brightnessDiv, int contrastDiv, int min, int max, bool changeHistogram, out Result output)
         {
             //fps start
             Stopwatch myStopWatch = new Stopwatch();
@@ -207,10 +227,10 @@ namespace histogram
             output = new Result();
             Image<Rgb, byte> result = new Image<Rgb, byte>(new Size(sourceImg.Width, sourceImg.Height));
 
-            max -= brightnessDiv;
-            min -= brightnessDiv;
-            max -= contrastDiv;
-            min += contrastDiv;
+            param.max -= param.brightnessDiv;
+            param.min -= param.brightnessDiv;
+            param.max -= param.contrastDiv;
+            param.min += param.contrastDiv;
             int rows = sourceImg.Rows;
             int cols = sourceImg.Cols;
             //計算轉換成圖片的0~255之值
@@ -222,13 +242,13 @@ namespace histogram
                     {
                         double pointValue = sourceImg.Data[r, c, channel];
 
-                        while (max - min < 2)
+                        while (param.max - param.min < 2)
                         {
-                            contrastDiv--;
-                            max++;
-                            min--;
+                            param.contrastDiv--;
+                            param.max++;
+                            param.min--;
                         }
-                        pointValue = 255.0 / (max - min) * (pointValue - min);
+                        pointValue = 255.0 / (param.max - param.min) * (pointValue - param.min);
                         //pointValue = Convert.ToInt32((255.0 / (max - min)) * Convert.ToDouble(pointValue - min));
                         if (pointValue > 255)
                         {
@@ -242,7 +262,7 @@ namespace histogram
                 }
             }
             //若有要更新才會更新
-            if (changeHistogram)
+            if (param.changeHistogram)
             {
                 output.histData = ComputeHistogram(result);
             }
@@ -251,11 +271,11 @@ namespace histogram
                 output.histData = oriHistData;
             }
             output.histBmp = DrawHistogram(output.histData);
-            output.histBmp = DrawMinMax(output.histBmp, brightnessDiv, contrastDiv);
+            output.histBmp = DrawMinMax(output.histBmp, param.brightnessDiv, param.contrastDiv);
 
             output.result = result;
-            output.min = min;
-            output.max = max;
+            output.min = param.min;
+            output.max = param.max;
             if (output.min < 0)
                 output.min = 0;
             if (output.max > 255)
@@ -270,8 +290,7 @@ namespace histogram
             myStopWatch.Reset();
             label5.Text = "fps : " + FPS.ToString();
         }
-
-        private void Change16bit(Image<Rgb, UInt16> sourceImg, float[][] oriHistData, int brightnessDiv, int contrastDiv, int min, int max, bool changeHistogram, out Result output)
+        private void Change16bit(Image<Rgb, UInt16> sourceImg, Parameter param, out Result output)        
         {
             ////fps start
             //Stopwatch myStopWatch = new Stopwatch();
@@ -283,10 +302,10 @@ namespace histogram
             //min -= Convert.ToDouble(brightnessDiv);
             //max -= Convert.ToDouble(contrastDiv);
             //min += Convert.ToDouble(contrastDiv);
-            max -= brightnessDiv;
-            min -= brightnessDiv;
-            max -= contrastDiv;
-            min += contrastDiv;
+            param.max -= param.brightnessDiv;
+            param.min -= param.brightnessDiv;
+            param.max -= param.contrastDiv;
+            param.min += param.contrastDiv;
             int rows = sourceImg.Rows;
             int cols = sourceImg.Cols;
             for (int channel = 0; channel < 3; channel++)
@@ -297,13 +316,13 @@ namespace histogram
                     {
                         double pointValue = sourceImg.Data[r, c, channel];
 
-                        while (max - min < 2)
+                        while (param.max - param.min < 2)
                         {
-                            contrastDiv--;
-                            max++;
-                            min--;
+                            param.contrastDiv--;
+                            param.max++;
+                            param.min--;
                         }
-                        pointValue = 255.0 / (max - min) * (pointValue - min);
+                        pointValue = 255.0 / (param.max - param.min) * (pointValue - param.min);
                         if (pointValue > 255)
                             pointValue = 255;
                         if (pointValue < 0)
@@ -314,7 +333,7 @@ namespace histogram
                 }
             }
             //若有要更新才會更新
-            if (changeHistogram)
+            if (param.changeHistogram)
             {
                 output.histData = ComputeHistogram(result);
             }
@@ -323,10 +342,10 @@ namespace histogram
                 output.histData = oriHistData;
             }
             output.histBmp = DrawHistogram(output.histData);
-            output.histBmp = DrawMinMax(output.histBmp, brightnessDiv >> 8, contrastDiv >> 8);
+            output.histBmp = DrawMinMax(output.histBmp, param.brightnessDiv >> 8, param.contrastDiv >> 8);
             output.result = result;
-            output.min = min;
-            output.max = max;
+            output.min = param.min;
+            output.max = param.max;
             if (output.min < 0)
                 output.min = 0;
             if (output.max > 65535)
@@ -347,16 +366,19 @@ namespace histogram
         {
             //fps start
             Stopwatch myStopWatch = new Stopwatch();
-            myStopWatch.Start();
-            bool changeHistogram;
-            changeHistogram = checkBox4.Checked;
-            contrastNum = trackBar1.Value;
+            Parameter param = new Parameter(oriMin,oriMax);
             Result output = new Result();
-
+            myStopWatch.Start();            
+            param.changeHistogram = checkBox4.Checked;
+            param.contrastDiv = trackBar1.Value;
+            param.brightnessDiv = trackBar2.Value;
+            //param.min = oriMin;
+            //param.max = oriMax;
             if (depth == 8)
-                Change8bit(sourceRgbImg8, oriHistData, brightnessNum, contrastNum, oriMin, oriMax, changeHistogram, out output);
+                Change8bit(sourceRgbImg8, param, out output);
+            //Change8bit(sourceRgbImg8, oriHistData, brightnessNum, contrastNum, oriMin, oriMax, changeHistogram, out output);
             else
-                Change16bit(sourceRgbImg16, oriHistData, brightnessNum, contrastNum, oriMin, oriMax, changeHistogram, out output);
+                Change16bit(sourceRgbImg16, param, out output);            
 
             pictureBox1.Image = output.result.ToBitmap();
             if (checkBox1.Checked)
@@ -394,15 +416,20 @@ namespace histogram
         {
             //fps start
             Stopwatch myStopWatch = new Stopwatch();
-            myStopWatch.Start();
-            bool changeHistogram;
-            changeHistogram = checkBox4.Checked;
-            brightnessNum = trackBar2.Value;
+            Parameter param = new Parameter(oriMin,oriMax);
             Result output = new Result();
+            myStopWatch.Start();
+            //bool changeHistogram;
+            param.changeHistogram = checkBox4.Checked;
+            param.contrastDiv = trackBar1.Value;
+            param.brightnessDiv = trackBar2.Value;
+            //param.min = oriMin;
+            //param.max = oriMax;
             if (depth == 8)
-                Change8bit(sourceRgbImg8, oriHistData, brightnessNum, contrastNum, oriMin, oriMax, changeHistogram, out output);
+                Change8bit(sourceRgbImg8, param, out output);
+            //Change8bit(sourceRgbImg8, oriHistData, brightnessNum, contrastNum, oriMin, oriMax, changeHistogram, out output);
             else
-                Change16bit(sourceRgbImg16, oriHistData, brightnessNum, contrastNum, oriMin, oriMax, changeHistogram, out output);
+                Change16bit(sourceRgbImg16, param, out output);
 
             pictureBox1.Image = output.result.ToBitmap();
             if (checkBox1.Checked)

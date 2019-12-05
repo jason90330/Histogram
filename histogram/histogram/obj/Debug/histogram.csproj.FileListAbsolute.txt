@@ -14,3 +14,17 @@ C:\Users\Juinda\實驗室\邑富\histogram\histogram\obj\Debug\histogram.csproj.
 C:\Users\Juinda\實驗室\邑富\histogram\histogram\obj\Debug\histogram.exe
 C:\Users\Juinda\實驗室\邑富\histogram\histogram\obj\Debug\histogram.pdb
 C:\Users\Juinda\實驗室\邑富\histogram\histogram\bin\Debug\ZedGraph.dll
+C:\Users\Juinda\專題\Histogram\histogram\histogram\bin\Debug\histogram.exe.config
+C:\Users\Juinda\專題\Histogram\histogram\histogram\bin\Debug\histogram.exe
+C:\Users\Juinda\專題\Histogram\histogram\histogram\bin\Debug\histogram.pdb
+C:\Users\Juinda\專題\Histogram\histogram\histogram\bin\Debug\ZedGraph.dll
+C:\Users\Juinda\專題\Histogram\histogram\histogram\bin\Debug\Emgu.CV.UI.xml
+C:\Users\Juinda\專題\Histogram\histogram\histogram\bin\Debug\Emgu.CV.World.xml
+C:\Users\Juinda\專題\Histogram\histogram\histogram\obj\Debug\histogram.csprojAssemblyReference.cache
+C:\Users\Juinda\專題\Histogram\histogram\histogram\obj\Debug\histogram.Form1.resources
+C:\Users\Juinda\專題\Histogram\histogram\histogram\obj\Debug\histogram.Properties.Resources.resources
+C:\Users\Juinda\專題\Histogram\histogram\histogram\obj\Debug\histogram.csproj.GenerateResource.cache
+C:\Users\Juinda\專題\Histogram\histogram\histogram\obj\Debug\histogram.csproj.CoreCompileInputs.cache
+C:\Users\Juinda\專題\Histogram\histogram\histogram\obj\Debug\histogram.csproj.CopyComplete
+C:\Users\Juinda\專題\Histogram\histogram\histogram\obj\Debug\histogram.exe
+C:\Users\Juinda\專題\Histogram\histogram\histogram\obj\Debug\histogram.pdb
